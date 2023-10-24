@@ -19,9 +19,8 @@ int main() {
     clock_t begin, end;
     begin = clock();
     Image img = {width, height, data};
-    Image img2 = prewitt(&img);
+    Image img2 = canny(&img, 1, 50, 120);
     end = clock();
     printf("time taken: %lf\n", (float)(end-begin)/CLOCKS_PER_SEC);
-
     stbi_write_bmp("../output.bmp", img2.width, img2.height, 1, img2.data);
 }
