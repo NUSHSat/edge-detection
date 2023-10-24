@@ -4,5 +4,8 @@
 
 #ifndef EDGE_DETECTION_EDGE_DETECTION_H
 #define EDGE_DETECTION_EDGE_DETECTION_H
-
+#include "utils.h"
+Image sobel(Image* input);
+Image scharr(Image* input);
+Image prewitt(Image* input);
 #endif //EDGE_DETECTION_EDGE_DETECTION_H

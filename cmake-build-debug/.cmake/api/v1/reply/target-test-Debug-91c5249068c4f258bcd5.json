@@ -86,6 +86,13 @@
 			]
 		}
 	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "lib_edge::@4c978e4259c9c77ec9bc"
+		}
+	],
 	"id" : "test::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
@@ -106,7 +113,7 @@
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "-llib_edge",
+				"fragment" : "lib_edge\\liblib_edge.a",
 				"role" : "libraries"
 			},
 			{

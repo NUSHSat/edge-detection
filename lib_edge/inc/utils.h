@@ -23,30 +23,10 @@ typedef struct {
     int rear;
 } Queue;
 
-Queue* create_queue(int size) {
-    Queue* queue = malloc(sizeof(Queue));
-    queue->data = malloc(size * sizeof(Point));
-    queue->front = 0;
-    queue->rear = -1;
-    return queue;
-}
-
-void enqueue(Queue* queue, Point point) {
-    queue->data[++queue->rear] = point;
-}
-
-Point dequeue(Queue* queue) {
-    return queue->data[queue->front++];
-}
-
-int is_empty(Queue* queue) {
-    return queue->front > queue->rear;
-}
-
-void free_queue(Queue* queue) {
-    free(queue->data);
-    free(queue);
-}
-
-void magnitude(Image* input, const Image gx, const Image gy);
+Queue* create_queue(int size);
+void enqueue(Queue* queue, Point point);
+Point dequeue(Queue* queue);
+int is_empty(Queue* queue);
+void free_queue(Queue* queue);
+void magnitude(Image* input, Image gx, Image gy);
 #endif //EDGE_DETECTION_IMAGE_H

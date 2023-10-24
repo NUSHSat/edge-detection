@@ -9,10 +9,10 @@
 
 
 Image convolution(const int kernel[3][3], const Image* image) {
-    int offsetx = kw / 2, offsety = kw / 2;
+    int offsetx = 3 / 2, offsety = 3 / 2;
     Image out = {image->width, image->height, malloc(image->width * image->height)};
 
-    float sum;
+    int sum;
     unsigned char *line;
     const unsigned char *lookup_line;
 
@@ -20,10 +20,8 @@ Image convolution(const int kernel[3][3], const Image* image) {
         line = out.data + y * image->width;
         for (int x = 0; x < image->width; x++) {
             sum = 0;
-
             for (int j = 0; j < 3; j++) {
-                if (y + j < offsety || y + j >= image->height)
-                    continue;
+                if (y + j < offsety || y + j >= image->height) continue;
                 lookup_line = image->data + (y + j - offsety) * image->width;
                 for (int i = 0; i < 3; i++) {
                     if (x + i < offsetx || x + i >= image->width)
@@ -81,8 +79,21 @@ void hysteresis(const Image* image, float tmin, float tmax, Image* res) {
 }
 
 
-Image sobel(const Image* input) {
+Image sobel(Image* input) {
     Image res = {input->width, input->height, malloc(input->width * input->height)};
     magnitude(&res, convolution(sobelx, input), convolution(sobely, input));
     return res;
 }
+
+Image prewitt(Image* input) {
+    Image res = {input->width, input->height, malloc(input->width * input->height)};
+    magnitude(&res, convolution(prewittx, input), convolution(prewitty, input));
+    return res;
+}
+
+Image scharr(Image* input) {
+    Image res = {input->width, input->height, malloc(input->width * input->height)};
+    magnitude(&res, convolution(scharrx, input), convolution(scharry, input));
+    return res;
+}
+

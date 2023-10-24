@@ -59,7 +59,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Order-only phony target for test
 
-build cmake_object_order_depends_target_test: phony || CMakeFiles/test.dir
+build cmake_object_order_depends_target_test: phony || cmake_object_order_depends_target_lib_edge
 
 build CMakeFiles/test.dir/test-edge.c.obj: C_COMPILER__test_Debug C$:/Users/zerui/Documents/github/edge-detection/test-edge.c || cmake_object_order_depends_target_test
   DEP_FILE = CMakeFiles\test.dir\test-edge.c.obj.d
@@ -76,9 +76,9 @@ build CMakeFiles/test.dir/test-edge.c.obj: C_COMPILER__test_Debug C$:/Users/zeru
 #############################################
 # Link the executable test.exe
 
-build test.exe: C_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/test-edge.c.obj
+build test.exe: C_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/test-edge.c.obj | lib_edge/liblib_edge.a || lib_edge/liblib_edge.a
   FLAGS = -Wall -Wextra -g
-  LINK_LIBRARIES = -lm  -llib_edge  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = -lm  lib_edge/liblib_edge.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\test.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -113,6 +113,45 @@ build lib_edge/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
 
 build lib_edge/edit_cache: phony lib_edge/CMakeFiles/edit_cache.util
 
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target lib_edge
+
+
+#############################################
+# Order-only phony target for lib_edge
+
+build cmake_object_order_depends_target_lib_edge: phony || lib_edge/CMakeFiles/lib_edge.dir
+
+build lib_edge/CMakeFiles/lib_edge.dir/src/edge-detection.c.obj: C_COMPILER__lib_edge_Debug C$:/Users/zerui/Documents/github/edge-detection/lib_edge/src/edge-detection.c || cmake_object_order_depends_target_lib_edge
+  DEP_FILE = lib_edge\CMakeFiles\lib_edge.dir\src\edge-detection.c.obj.d
+  FLAGS = -Wall -Wextra -g -std=gnu11
+  INCLUDES = -IC:/Users/zerui/Documents/github/edge-detection/lib_edge/inc
+  OBJECT_DIR = lib_edge\CMakeFiles\lib_edge.dir
+  OBJECT_FILE_DIR = lib_edge\CMakeFiles\lib_edge.dir\src
+
+build lib_edge/CMakeFiles/lib_edge.dir/src/utils.c.obj: C_COMPILER__lib_edge_Debug C$:/Users/zerui/Documents/github/edge-detection/lib_edge/src/utils.c || cmake_object_order_depends_target_lib_edge
+  DEP_FILE = lib_edge\CMakeFiles\lib_edge.dir\src\utils.c.obj.d
+  FLAGS = -Wall -Wextra -g -std=gnu11
+  INCLUDES = -IC:/Users/zerui/Documents/github/edge-detection/lib_edge/inc
+  OBJECT_DIR = lib_edge\CMakeFiles\lib_edge.dir
+  OBJECT_FILE_DIR = lib_edge\CMakeFiles\lib_edge.dir\src
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target lib_edge
+
+
+#############################################
+# Link the static library lib_edge\liblib_edge.a
+
+build lib_edge/liblib_edge.a: C_STATIC_LIBRARY_LINKER__lib_edge_Debug lib_edge/CMakeFiles/lib_edge.dir/src/edge-detection.c.obj lib_edge/CMakeFiles/lib_edge.dir/src/utils.c.obj
+  LANGUAGE_COMPILE_FLAGS = -Wall -Wextra -g
+  OBJECT_DIR = lib_edge\CMakeFiles\lib_edge.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = lib_edge\liblib_edge.a
+  TARGET_PDB = lib_edge.a.dbg
+
 
 #############################################
 # Utility command for rebuild_cache
@@ -127,6 +166,10 @@ build lib_edge/rebuild_cache: phony lib_edge/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Target aliases.
+
+build lib_edge: phony lib_edge/liblib_edge.a
+
+build liblib_edge.a: phony lib_edge/liblib_edge.a
 
 build test: phony test.exe
 
@@ -145,7 +188,7 @@ build all: phony test.exe lib_edge/all
 #############################################
 # Folder: C:/Users/zerui/Documents/github/edge-detection/cmake-build-debug/lib_edge
 
-build lib_edge/all: phony
+build lib_edge/all: phony lib_edge/liblib_edge.a
 
 # =============================================================================
 # Built-in targets

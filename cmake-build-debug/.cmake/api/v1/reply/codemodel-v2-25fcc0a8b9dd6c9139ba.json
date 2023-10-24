@@ -19,7 +19,7 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						1
 					]
 				},
 				{
@@ -31,7 +31,11 @@
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "lib_edge"
+					"source" : "lib_edge",
+					"targetIndexes" : 
+					[
+						0
+					]
 				}
 			],
 			"name" : "Debug",
@@ -46,16 +50,24 @@
 					"name" : "edge_detection",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
 			"targets" : 
 			[
 				{
+					"directoryIndex" : 1,
+					"id" : "lib_edge::@4c978e4259c9c77ec9bc",
+					"jsonFile" : "target-lib_edge-Debug-7ddbb42c6b551c2bed4c.json",
+					"name" : "lib_edge",
+					"projectIndex" : 0
+				},
+				{
 					"directoryIndex" : 0,
 					"id" : "test::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-test-Debug-fc73a16aa95c2ec0172a.json",
+					"jsonFile" : "target-test-Debug-91c5249068c4f258bcd5.json",
 					"name" : "test",
 					"projectIndex" : 0
 				}
