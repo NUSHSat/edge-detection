@@ -4,24 +4,27 @@
 
 #ifndef EDGE_DETECTION_KERNALS_H
 #define EDGE_DETECTION_KERNALS_H
-#define ROWS 3
-#define COLS 3
+#include "math.h"
 
-typedef struct {
-    int arr[COLS];
-} array;
+const int sobelx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+const int sobely[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
+const int prewittx[3][3] = {{-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1}};
+const int prewitty[3][3] = {{-1, -1, -1}, {0, 0, 0}, {1, 1, 1}};
+const int scharrx[3][3] = {{3, 10, 3}, {0, 0, 0}, {-3, -10, -3}};
+const int scharry[3][3] = {{3, 0, -3}, {10, 0, -10}, {3, 0 ,-3}};
 
-typedef struct {
-    array arr[ROWS];
-} matrix;
+float gaussian_kernel(float sigma, int x, int y) {
+    float s = 2 * sigma * sigma;
+    return exp(-(x * x + y * y) / s) / s / M_PI;
+}
 
-const matrix sobelx = {{{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}};
-const matrix sobely = {{{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}}};
-const matrix prewittx = {{{-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1}}};
-const matrix prewitty = {{{-1, -1, -1}, {0, 0, 0}, {1, 1, 1}}};
-const matrix robertsx = {{{1, 0}, {0, -1}}};
-const matrix robertsy = {{{0, 1}, {-1, 0}}};
-const matrix scharrx = {{{3, 10, 3}, {0, 0, 0}, {-3, -10, -3}}};
-const matrix scharry = {{{3, 0, -3}, {10, 0, -10}, {3, 0 ,-3}}};
-
+void get_gaussian_kernel(float sigma, float **kernel) {
+    float sum = 0;
+    for (int x = -2; x <= 2; x++)
+        for (int y = -2; y <= 2; y++)
+            sum += (kernel[x + 2][y + 2] = gaussian_kernel(sigma, x, y));
+    for (int i = 0; i < 5; i++)
+        for (int j = 0; j < 5; j++)
+            kernel[i][j] /= sum;
+}
 #endif //EDGE_DETECTION_KERNALS_H
