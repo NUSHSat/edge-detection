@@ -1,0 +1,8 @@
+//
+// Created by zerui on 24/10/2023.
+//
+
+#ifndef EDGE_DETECTION_EDGE_DETECTION_H
+#define EDGE_DETECTION_EDGE_DETECTION_H
+
+#endif //EDGE_DETECTION_EDGE_DETECTION_H
