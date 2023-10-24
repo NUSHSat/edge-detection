@@ -36,17 +36,16 @@ Image convolution(const Image* image, int l, const float kernel[l][l]) {
     return out;
 }
 
-Image hysteresis(const Image* image, float tmin, float tmax) {
-    Image res = {image->width, image->height, malloc(image->width * image->height)};
+void hysteresis(const Image* image, float tmin, float tmax, Image* res) {
     const unsigned char *original_line;
     unsigned char *result_line;
     int ni, nj;
     Queue* edges = create_queue(image->width * image->height);
     Point point;
-    for (int y = 1; y < res.height - 1; y++) {
+    for (int y = 1; y < res->height - 1; y++) {
         original_line = image->data + y * image->width;
-        result_line = res.data + y * res.width;
-        for (int x = 1; x < res.width - 1; x++) {
+        result_line = res->data + y * res->width;
+        for (int x = 1; x < res->width - 1; x++) {
             if (original_line[x] >= tmax && result_line[x] == 0x00) {
                 result_line[x] = 0xFF;
                 enqueue(edges, (Point){x, y});
@@ -57,7 +56,7 @@ Image hysteresis(const Image* image, float tmin, float tmax) {
                         if (nj < 0 || nj >= image->height)
                             continue;
                         original_line = image->data + nj * image->width;
-                        result_line = res.data + nj * res.width;
+                        result_line = res->data + nj * res->width;
                         for (int i = -1; i <= 1; i++) {
                             if (!i && !j)
                                 continue;
@@ -78,7 +77,6 @@ Image hysteresis(const Image* image, float tmin, float tmax) {
     }
     free_queue(edges);
 }
-
 
 Image sobel(Image* input) {
     Image res = {input->width, input->height, malloc(input->width * input->height)};
@@ -108,29 +106,31 @@ Image canny(Image* input, float sigma, float tmin, float tmax) {
 
     magnitude(&res, gx, gy);
 
-    unsigned char *line;
-    const unsigned char *prev_line, *next_line, *gx_line, *gy_line;
-
-    for (int y = 1; y < res.height - 1; y++) {
-        line = &res.data[y * res.width];
-        prev_line = &res.data[(y - 1) * res.width];
-        next_line = &res.data[(y + 1) * res.width];
-        gx_line = &gx.data[y * gx.width];
-        gy_line = &gy.data[y * gy.width];
-
-        for (int x = 1; x < res.width - 1; x++) {
-            double at = atan2(gy_line[x], gx_line[x]);
-            const double dir = fmod(at + M_PI, M_PI) / M_PI * 8;
-
-            if (((1 >= dir || dir > 7) && line[x - 1] < line[x] && line[x + 1] < line[x]) ||
-                ((1 < dir || dir <= 3) && prev_line[x - 1] < line[x] && next_line[x + 1] < line[x]) ||
-                ((3 < dir || dir <= 5) && prev_line[x] < line[x] && next_line[x] < line[x]) ||
-                ((5 < dir || dir <= 7) && prev_line[x + 1] < line[x] && next_line[x - 1] < line[x]))
-                continue;
-
-            line[x] = 0x00;
-        }
-    }
-
-    return hysteresis(&res, tmin, tmax);
+//    unsigned char *line;
+//    const unsigned char *prev_line, *next_line, *gx_line, *gy_line;
+//
+//    for (int y = 1; y < res.height - 1; y++) {
+//        line = &res.data[y * res.width];
+//        prev_line = &res.data[(y - 1) * res.width];
+//        next_line = &res.data[(y + 1) * res.width];
+//        gx_line = &gx.data[y * gx.width];
+//        gy_line = &gy.data[y * gy.width];
+//
+//        for (int x = 1; x < res.width - 1; x++) {
+//            double at = atan2(gy_line[x], gx_line[x]);
+//            const double dir = fmod(at + M_PI, M_PI) / M_PI * 8;
+//
+//            if (((1 >= dir || dir > 7) && line[x - 1] < line[x] && line[x + 1] < line[x]) ||
+//                ((1 < dir || dir <= 3) && prev_line[x - 1] < line[x] && next_line[x + 1] < line[x]) ||
+//                ((3 < dir || dir <= 5) && prev_line[x] < line[x] && next_line[x] < line[x]) ||
+//                ((5 < dir || dir <= 7) && prev_line[x + 1] < line[x] && next_line[x - 1] < line[x]))
+//                continue;
+//
+//            line[x] = 0x00;
+//        }
+//    }
+    Image res2 = {res.width, res.height, malloc(res.width*res.height)};
+    hysteresis(&res, tmin, tmax, &res2);
+    return res2;
+//    return res;
 }
